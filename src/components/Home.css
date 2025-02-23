@@ -1,0 +1,25 @@
+.home-container {
+    background-image: url("../images/home-banner.png");
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    color: white;
+}
+
+.logo-img {
+    width: 20em;
+    margin-top: 5%;
+}
+
+.title{
+    margin-top: 20px;
+    font-size: 5em;
+    font-family: 'roboto', 'sans-serif';
+}
+
+.mainpage-button {
+    width: 200px;
+    margin-top: 20px;
+}
