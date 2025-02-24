@@ -1,0 +1,143 @@
+.order-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .order-header {
+    color: white;
+    background-color: #CE2829;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .order-info {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .pizza-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .pizza-name {
+    text-align: left;
+    width: 100%;
+  }
+  
+  .pizza-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .pizza-price {
+    text-align: left;
+  }
+  
+  .pizza-rating,
+  .pizza-reviews {
+    text-align: right;
+  }
+
+  .pizza-rating-reviews {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .pizza-description {
+    text-align: left;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  Form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 50%;
+  }
+
+  .pizza-dough {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  div.toppings-checkboxs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  div.toppings-checkboxs label {
+    flex: 0 1 calc(33.333% - 10px); 
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-note {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .order-summary{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .orderprice-summary {
+    border: 1px solid #5F5F5F;
+    padding: 1rem;
+    
+    border-radius: 5%;
+  }
+  
+  .orderprice-title {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .orderprice-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .orderprice-formGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 4rem;
+  }
+
+  .quantity-control {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-button {
+    padding: 20px;
+  }
+
+  .quantity-control input {
+    padding: 20px 0px;
+    text-align: center;
+  }
