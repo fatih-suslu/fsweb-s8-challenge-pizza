@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import "./Order.css";
 import { useHistory } from "react-router-dom";
+import logo from '../images/logo.svg';
 
 export default function Order() {
   const [selectedToppings, setSelectedToppings] = useState([]);
@@ -62,10 +63,8 @@ export default function Order() {
   return (
     <div className="order-container">
       <section className="order-header">
-      <h1 className="title">Teknolojik Yemekler</h1>
-      <h2 className="subtitle">Anasayfa - Seçenekler -Sipariş Oluştur</h2>
+      <img src={logo} alt="logo" />
       </section>
-
       <div className="order-info">
         <h3 className="pizza-name">Position Absolute Acı Pizza</h3>
         <section className="pizza-info">
