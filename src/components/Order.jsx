@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import "./Order.css";
+import { useHistory } from "react-router-dom";
 
 export default function Order() {
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [pizzaQuantity, setPizzaQuantity] = useState(1);
+  const history = useHistory();
 
   const toppings = [
     { name: "pepperoni", label: "Pepperoni" },
@@ -52,6 +54,11 @@ export default function Order() {
   const toppingPrice = 5;
   const totalPrice = (basePrice + selectedToppings.length * toppingPrice) * pizzaQuantity;
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    history.push("/success");
+  };
+
   return (
     <div className="order-container">
       <section className="order-header">
@@ -80,7 +87,7 @@ export default function Order() {
           </p>
         </section>
       </div>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <div className="pizza-dough">
           <FormGroup className="size-formGroup">
             <Label for="size">Boyut Seç</Label>

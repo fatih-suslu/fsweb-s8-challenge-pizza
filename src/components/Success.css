@@ -1,0 +1,29 @@
+.success-container {
+    background-color: red;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-div {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.logo-img {
+    max-width: 200px;
+    height: auto;
+}
+
+.title {
+    font-size: 3rem;
+    text-align: center;
+    color: white;
+    font-family: barlow, sans-serif;
+    letter-spacing: -3px;
+}
