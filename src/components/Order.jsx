@@ -12,15 +12,16 @@ export default function Order() {
   const [dough, setDough] = useState(""); 
   const [error, setError] = useState(""); 
   const [userName, setUserName] = useState(""); 
+  const [orderNote, setOrderNote] = useState("");
   const history = useHistory();
 
-  const initialData = {
-    userName: "",
-    size: "",
-    dough: "",
-    selectedToppings: [],
-    odernote: "",
-    pizzaQuantity: "",
+  const orderData = {
+    userName,
+    size,
+    dough,
+    selectedToppings,
+    orderNote,
+    pizzaQuantity,
   };
 
   const toppings = [
@@ -88,7 +89,15 @@ export default function Order() {
       return;
     }
     setError("");
-    history.push("/success");
+
+    axios.post("https://reqres.in/api/pizza", orderData)
+      .then(response => {
+        console.log(response.data);
+        history.push("/success");
+      })
+      .catch(error => {
+        console.error("Sipariş gönderilirken bir hata oluştu:", error);
+      });
   };
 
   return (
@@ -177,8 +186,14 @@ export default function Order() {
         </div>
         <div className="user-note">
           <FormGroup>
-            <Label for="ordernote">Sipariş Notu</Label>
-            <Input type="textarea" name="ordernote" placeholder="Siparişine eklemek istediğin bir not var mı?" />
+            <Label for="order-note">Sipariş Notu</Label>
+            <Input
+              type="textarea"
+              name="order-note"
+              value={orderNote}
+              onChange={(event) => setOrderNote(event.target.value)}
+              placeholder="Siparişine eklemek istediğin bir not var mı?"
+            />
             <hr></hr>
           </FormGroup>
         </div>
