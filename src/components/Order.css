@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: 3rem;
   }
 
   .order-header {
@@ -13,6 +14,22 @@
     margin-bottom: 2rem;
     margin-top: 5rem;
     text-align: center;
+  }
+
+  .order-nav {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .order-nav a {
+    color: wheat;
+  }
+
+  .order-nav a.active {
+    color: white;
+    font-weight: bold;
   }
   
   .order-info {
@@ -98,6 +115,10 @@
     align-items: center;
   }
   
+  div.user-info {
+    width: 100%;
+  }
+
   .user-note {
     width: 100%;
     margin-top: 1rem;

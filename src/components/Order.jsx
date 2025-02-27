@@ -1,13 +1,27 @@
 import React, { useState } from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import "./Order.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import logo from '../images/logo.svg';
+import axios from "axios";
 
 export default function Order() {
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [pizzaQuantity, setPizzaQuantity] = useState(1);
+  const [size, setSize] = useState(""); 
+  const [dough, setDough] = useState(""); 
+  const [error, setError] = useState(""); 
+  const [userName, setUserName] = useState(""); 
   const history = useHistory();
+
+  const initialData = {
+    userName: "",
+    size: "",
+    dough: "",
+    selectedToppings: [],
+    odernote: "",
+    pizzaQuantity: "",
+  };
 
   const toppings = [
     { name: "pepperoni", label: "Pepperoni" },
@@ -57,13 +71,34 @@ export default function Order() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (selectedToppings.length < 4) {
+      setError("Lütfen en az 4 malzeme seçiniz.");
+      return;
+    }
+    if (!size) {
+      setError("Lütfen bir boyut seçiniz.");
+      return;
+    }
+    if (!dough) {
+      setError("Lütfen bir hamur seçiniz.");
+      return;
+    }
+    if (!userName) {
+      setError("Lütfen adınızı ve soyadınızı girin.");
+      return;
+    }
+    setError("");
     history.push("/success");
   };
 
   return (
     <div className="order-container">
       <section className="order-header">
-      <img src={logo} alt="logo" />
+        <img src={logo} alt="logo" />
+        <nav className="order-nav">
+          <NavLink exact to="/" activeClassName="active">Anasayfa</NavLink>
+          <NavLink to="/order" activeClassName="active">Sipariş Oluştur</NavLink>
+        </nav>
       </section>
       <div className="order-info">
         <h3 className="pizza-name">Position Absolute Acı Pizza</h3>
@@ -89,14 +124,21 @@ export default function Order() {
       <Form onSubmit={handleSubmit}>
         <div className="pizza-dough">
           <FormGroup className="size-formGroup">
-            <Label for="size">Boyut Seç</Label>
-            <Label><Input type="radio" name="size" value="small" /> Küçük</Label>
-            <Label><Input type="radio" name="size" value="medium" /> Orta</Label>
-            <Label><Input type="radio" name="size" value="large" /> Büyük</Label>
+            <Label for="size">Boyut Seç*</Label>
+            <Label>
+              <Input type="radio" name="size" value="small" onChange={(event) => setSize(event.target.value)} /> Küçük
+            </Label>
+            <Label>
+              <Input type="radio" name="size" value="medium" onChange={(event) => setSize(event.target.value)} /> Orta
+            </Label>
+            <Label>
+              <Input type="radio" name="size" value="large" onChange={(event) => setSize(event.target.value)} /> Büyük
+            </Label>
           </FormGroup>
           <FormGroup className="dough-formGroup">
-            <Label for="dough">Hamur Seç</Label>
-            <Input type="select" name="dough">
+            <Label for="dough">Hamur Seç*</Label>
+            <Input type="select" name="dough" onChange={(event) => setDough(event.target.value)}>
+              <option value="">Seçiniz</option>
               <option value="thin">İnce</option>
               <option value="thick">Kalın</option>
             </Input>
@@ -104,30 +146,43 @@ export default function Order() {
         </div>
         <div className="pizza-toppings">
           <FormGroup>
-            <Label for="toppings">Ek Malzemeler</Label>
-            <p>En fazla 10 malzeme seçebilirsiniz. 5₺</p>
+            <Label for="toppings">Ek Malzemeler*</Label>
+            <p>En az 4 en fazla 10 malzeme seçebilirsiniz. 5₺</p>
             <div className="toppings-checkboxs">
-            {toppings.map((topping) => (
-              <Label key={topping.name}>
-                <Input
-                  type="checkbox"
-                  name={topping.name}
-                  onChange={handleToppingChange}
-                  disabled={!selectedToppings.includes(topping.name) && selectedToppings.length >= 10}
-                />
-                {topping.label}
-              </Label>
-            ))}
+              {toppings.map((topping) => (
+                <Label key={topping.name}>
+                  <Input
+                    type="checkbox"
+                    name={topping.name}
+                    onChange={handleToppingChange}
+                    disabled={!selectedToppings.includes(topping.name) && selectedToppings.length >= 10}
+                  />
+                  {topping.label}
+                </Label>
+              ))}
             </div>
+          </FormGroup>
+        </div>
+        <div className="user-info">
+          <FormGroup>
+            <Label for="user-name">Ad-Soyad*:</Label>
+            <Input
+              type="text"
+              name="user-name"
+              value={userName}
+              onChange={(event) => setUserName(event.target.value)}
+              placeholder="Tam adınızı giriniz"
+            />
           </FormGroup>
         </div>
         <div className="user-note">
           <FormGroup>
-            <Label for="order-note">Sipariş Notu</Label>
-            <Input type="textarea" name="order-note" placeholder="Siparişine eklemek istediğin bir not var mı?" />
+            <Label for="ordernote">Sipariş Notu</Label>
+            <Input type="textarea" name="ordernote" placeholder="Siparişine eklemek istediğin bir not var mı?" />
             <hr></hr>
           </FormGroup>
         </div>
+
         <div className="order-summary">
           <FormGroup>
             <Label for="quantity">Pizza Miktarı:</Label>
@@ -144,22 +199,23 @@ export default function Order() {
             </div>
           </FormGroup>
           <FormGroup className="orderprice-formGroup">
-          <div className="orderprice-summary">
-            <div className="orderprice-title">
-              <h5>Sipariş Toplamı</h5>
-            </div>
-            <div className="orderprice-details">
-              <div>
-                <p>Seçimler:</p>
-                <p>Toplam:</p>
+            <div className="orderprice-summary">
+              <div className="orderprice-title">
+                <h5>Sipariş Toplamı</h5>
               </div>
-              <div>
-                <p>{(selectedToppings.length * 5).toFixed(2)}₺</p>
-                <p>{totalPrice.toFixed(2)}₺</p>
+              <div className="orderprice-details">
+                <div>
+                  <p>Seçimler:</p>
+                  <p>Toplam:</p>
+                </div>
+                <div>
+                  <p>{(selectedToppings.length * 5).toFixed(2)}₺</p>
+                  <p>{totalPrice.toFixed(2)}₺</p>
+                </div>
               </div>
             </div>
-          </div>
-          <Button type="submit" color="warning">SİPARİŞ VER</Button>
+            {error && <p className="error">{error}</p>}
+            <Button type="submit" color="warning">SİPARİŞ VER</Button>
           </FormGroup>
         </div>
       </Form>
